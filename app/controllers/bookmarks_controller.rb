@@ -6,21 +6,20 @@ class BookmarksController < ApplicationController
   end
 
   def create
-    @bookmark = @list.bookmarks.build(bookmark_params)
+    @bookmark = Bookmark.new(bookmark_params)
+    @bookmark.list = @list
+
     if @bookmark.save
-      redirect_to @list, notice: "Movie added to list."
+      redirect_to @list
     else
-      # If you render :new you need @movies etc. Simpler: render list show so user stays on list page:
-      @movie = @bookmark.movie
-      render "lists/show", status: :unprocessable_entity
+      render :new
     end
   end
 
   def destroy
     @bookmark = Bookmark.find(params[:id])
-    list = @bookmark.list
     @bookmark.destroy
-    redirect_to list, notice: "Bookmark removed."
+    redirect_to @bookmark.list
   end
 
   private
@@ -30,6 +29,6 @@ class BookmarksController < ApplicationController
   end
 
   def bookmark_params
-    params.require(:bookmark).permit(:movie_id, :comment)
+    params.require(:bookmark).permit(:comment, :movie_id)
   end
 end
