@@ -1,0 +1,13 @@
+<h1>My Lists</h1>
+<%= link_to "New List", new_list_path, class: "btn btn-primary mb-3" %>
+
+<div class="row">
+  <% @lists.each do |list| %>
+    <div class="col-md-4 mb-3">
+      <div class="card p-3">
+        <h4><%= link_to list.name, list_path(list) %></h4>
+        <p><%= pluralize(list.movies.count, "movie") %></p>
+      </div>
+    </div>
+  <% end %>
+</div>
