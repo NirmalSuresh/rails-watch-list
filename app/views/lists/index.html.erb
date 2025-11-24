@@ -3,11 +3,13 @@
 
 <div class="row">
   <% @lists.each do |list| %>
-    <div class="col-md-4 mb-3">
-      <div class="card p-3">
-        <h4><%= link_to list.name, list_path(list) %></h4>
-        <p><%= pluralize(list.movies.count, "movie") %></p>
-      </div>
+    <div class="col-md-4 mb-4">
+      <%= link_to list_path(list), class: "text-decoration-none" do %>
+        <div class="card-category"
+             style="background-image: url('<%= list.photo.attached? ? cl_image_path(list.photo.key, width: 500, height: 300, crop: :fill) : "https://picsum.photos/500/300" %>');">
+          <%= list.name %>
+        </div>
+      <% end %>
     </div>
   <% end %>
 </div>

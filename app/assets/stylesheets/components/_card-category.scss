@@ -1,0 +1,18 @@
+.card-category {
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 20px;
+  font-size: 24px;
+  color: white;
+  text-shadow: 0 0 8px rgba(0,0,0,0.8);
+  transition: 0.2s ease;
+
+  &:hover {
+    transform: scale(1.03);
+  }
+}

@@ -1,18 +1,28 @@
-<h1><%= @list.name %></h1>
+<div class="banner"
+     style="background-image: url('<%= @list.photo.attached? ? cl_image_path(@list.photo.key, width: 1200, height: 500, crop: :fill) : "https://picsum.photos/1200/500" %>');">
+  <div class="container">
+    <h1><%= @list.name %></h1>
+  </div>
+</div>
 
-<h3>Movies in this list</h3>
+<h3 class="mt-4">Movies in this list</h3>
+
 <div class="row">
   <% @list.bookmarks.each do |bookmark| %>
-    <div class="col-md-6 mb-3">
-      <div class="card p-2">
-        <div class="d-flex">
-          <%= image_tag bookmark.movie.poster_url, alt: bookmark.movie.title, width: 100 if bookmark.movie.poster_url.present? %>
-          <div class="ps-3">
-            <h5><%= bookmark.movie.title %></h5>
-            <p><%= truncate(bookmark.movie.overview, length: 120) %></p>
-            <p><em><%= bookmark.comment %></em></p>
-            <%= link_to "Remove", bookmark_path(bookmark), method: :delete, data: { confirm: "Delete this bookmark?" }, class: "btn btn-sm btn-danger" %>
-          </div>
+    <div class="col-md-6 mb-4">
+      <div class="card-product">
+        <%= image_tag bookmark.movie.poster_url, class: "card-product-img" %>
+
+        <div class="card-product-infos">
+          <h2><%= bookmark.movie.title %></h2>
+          <p><%= truncate(bookmark.movie.overview, length: 120) %></p>
+          <p><em><%= bookmark.comment %></em></p>
+
+          <%= link_to "Remove",
+              bookmark_path(bookmark),
+              method: :delete,
+              data: { confirm: "Delete this bookmark?" },
+              class: "btn btn-danger btn-sm mt-2" %>
         </div>
       </div>
     </div>
@@ -22,8 +32,17 @@
 <hr>
 
 <h3>Add a movie to this list</h3>
+
 <%= simple_form_for [@list, @bookmark] do |f| %>
-  <%= f.input :movie_id, collection: Movie.all, label_method: :title, as: :select, prompt: "Choose a movie" %>
+  <%= f.input :movie_id,
+        collection: Movie.all,
+        label_method: :title,
+        as: :select,
+        prompt: "Choose a movie" %>
+
   <%= f.input :comment %>
-  <%= f.button :submit, "Add bookmark", class: "btn btn-primary" %>
+
+  <%= f.button :submit,
+        "Add bookmark",
+        class: "btn btn-primary" %>
 <% end %>
